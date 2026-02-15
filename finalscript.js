@@ -234,9 +234,9 @@ const questions = [
         answers: [
             { text: "Are you okay?", correct: false },
             { text: "Relapse", correct: false },
-            { text: "Are you lonely?", correct: true },
+            { text: "Are you lonely?", correct: false },
             { text: "Lonely Hills", correct: false },
-            { text: "Night Bound", correct: false }
+            { text: "Grow a feeling", correct: true }
         ]
     },
     {
