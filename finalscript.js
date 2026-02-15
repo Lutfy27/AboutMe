@@ -1,380 +1,462 @@
+// =======================
+// STATE
+// =======================
+let nilai = 0;
+let salah = 0;
+let userName = "Tak punya nama";
+let currentQuestion = 0;
+let finalQuestions = [];
+let answerHistory = [];
 
-let nilai =0;
-let salah=0;
-let userName = 'Tak punya nama';
+// =======================
+// QUESTIONS (STRUCTURE RAPI)
+// =======================
+
 const questions = [
     {
-        question: "Q1/12: Siapa namaku?",
-        image: "https://media.giphy.com/media/9C1nyePnovqlpEYFMD/giphy.gif",
-        answers: {
-            A: {
-                text: "Jamal",
-            },
-            T: {
-                text: "Lutfi",
-            },
-            B: {
-                text: "Fay",
-            },
-            C: {
-                text: "Febry",
-            },
-            D: {
-                text: "Fauzan",
-            },
-        },
+        question: "Kapan kita pertama kali ketemu?",
+        image: "img/0.png",
+        answers: [
+            { text: "30 Juli 2025", correct: false },
+            { text: "31 Juli 2025", correct: false },
+            { text: "01 Agustus 2025", correct: false },
+            { text: "02 Agustus 2025", correct: true },
+            { text: "03 Agustus 2025", correct: false }
+        ]
     },
     {
-        question: "Q2/12: Tempat dan Tanggal Lahir ku?",
-        image: "https://media.giphy.com/media/EZICHGrSD5QEFCxMiC/giphy.gif",
-        answers: {
-            T: {
-                text: "Pekanbaru, 27 Agustus 1999",
-            },
-            F: {
-                text: "Pekanbaru, 27 Agustus 1998",
-            },
-        },
+        question: "Kita ketemu pertama kali dimana?",
+        image: "img/01.png",
+        answers: [
+            { text: "Mount Hauk", correct: false },
+            { text: "Mountera", correct: false },
+            { text: "Night Bound", correct: false },
+            { text: "Bathroom Hangout", correct: true },
+            { text: "Mount ASWD", correct: false },
+            { text: "Blackjack Family", correct: false }
+        ]
     },
-    {
-        question: "Q3/12: Apa status ku saat ini?",
-        image: "https://media.giphy.com/media/26xBFT1F9BgskEvTO/giphy.gif",
-        answers: {
-            T: {
-                text: "Single",
-            },
-            F: {
-                text: "Taken",
-            },
-        },
-    },
-    {
-        question: "Q4/12: Menurutmu mood ku akhir2 ini seperti apa?",
-        image: "https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif",
-        answers: {
-            A: {
-                text: "Tidak pernah sebahagia ini semenjak diputusin",
-            },
-            B: {
-                text: "Sangat Bebas tidak dispam lagi sama 'dia'",
-            },
-            F: {
-                text: "Kacau Parah, bgst tolol",
-            },
-            T: {
-                text: "Menyesal gblk, pen mati",
-            }
-        },
-    },
-    {
-        question: "Q5/12: Tanggal Berapa aku jadian sama mantan terakhir?",
-        image: "https://media.giphy.com/media/1wmOyZYoGzz003R03Y/giphy.gif",
-        answers: {
-            T: {
-                text: "7 Juli 2019",
-            },
-            A: {
-                text: "6 Juli 2019",
-            },
-            B: {
-                text: "27 Agustus 2018",
-            },
-            C: {
-                text: "11 Agustus 2000",
-            },
-            D: {
-                text: "emang pernah pacaran?",
-            },
-        },
-    },
-    {
-        question: "Q6/12: Tempat terfavorit ?",
-        image: "https://media.giphy.com/media/xd2c44rUajkHnxpywZ/giphy.gif",
-        answers: {
-            I: {
-                text: "Mall",
-            },
-            F: {
-                text: "Hotel",
-            },
-            T: {
-                text: "Mie Gacoan",
-            },
-        },
-    },
-    {
-        question: "Q7/12: Tempat tertolol ?",
-        image: "https://media.giphy.com/media/QBXtQQF2dtjEJjNbJ7/giphy.gif",
-        answers: {
-            T: {
-                text: "Tangga Lantai 3",
-            },
-            N: {
-                text: "Semak-semak",
-            },
-            J: {
-                text: "Hotel",
-            },
-        },
-    },
-    {
-        question: "Q8/12: My Love Language?",
-        image: "https://media.giphy.com/media/P3CZolxd8DeRy4g4fM/giphy.gif",
-        answers: {
-            A: {
-                text: "Quality Time",
-            },
-            B: {
-                text: "Acts of Service",
-            },
-            T: {
-                text: "Physical Touch",
-            },
-            C: {
-                text: "Physical Attack",
-            },
-            D: {
-                text: "Words of Affirmation",
-            },
-            E: {
-                text: "Giving Gifts",
-            },
-        },
-    },
-    {
-        question: "Q9/12: Titik Kelemahan Aku?",
-        image: "https://media.giphy.com/media/ltIFdjNAasOwVvKhvx/giphy.gif",
-        answers: {
-            A: {
-                text: "Perut",
-            },
-            T: {
-                text: "Leher",
-            },
-            B: {
-                text: "Pantat",
-            },
-            C: {
-                text: "Tytyd",
-            },
-        },
-    },
-    {
-        question: "Q10/12: Warna favorit Aku?",
-        image: "https://media.giphy.com/media/3o9bJX4O9ShW1L32eY/giphy.gif",
-        answers: {
-            I: {
-                text: "Hitam",
-            },
-            T: {
-                text: "Coklat",
-            },
-            F: {
-                text: "Hijau",
-            },
-        },
 
+    // =====================
+    // SOAL LAIN → tinggal tambah format sama
+    // =====================
+
+    {
+        question: "Dimana foto ini?",
+        image: "img/1.png",
+        answers: [
+            { text: "Mount Borneo", correct: true },
+            { text: "Mount Jawir", correct: false },
+            { text: "Mount Seminung", correct: false },
+            { text: "Mount Swiss", correct: false },
+            { text: "Mount Bromo", correct: false }
+        ]
     },
     {
-        question: "Q11/12: Tipe Cewek Aku?",
-        image: "https://media.giphy.com/media/3Owa0TWYqHi5RZYGql/giphy.gif",
-        answers: {
-            A: {
-                text: "Cindo T0brut",
-            },
-            B: {
-                text: "Cindo Tomed",
-            },
-            C: {
-                text: "Cindo Tocil",
-            },
-            D: {
-                text: "Cindo Jahat",
-            },
-            E: {
-                text: "Cindo Lagi, Cindo Lagi",
-            },
-            T: {
-                text: "Yang mau samaku udah syukur, jahat soalnya.",
-            },
-        },
+        question: "Ini foto kapan?",
+        image: "img/1.png",
+        answers: [
+            { text: "01 Agustus 2025", correct: false },
+            { text: "02 Agustus 2025", correct: true },
+            { text: "03 Agustus 2025", correct: false },
+            { text: "04 Agustus 2025", correct: false },
+            { text: "05 Agustus 2025", correct: false }
+        ]
     },
     {
-        question: "Q12/12: Permainan favoritku?",
-        image: "https://media.giphy.com/media/ZyNQFqZLFUhr2/giphy.gif",
-        answers: {
-            A: {
-                text: "Nyoli",
-            },
-            T: {
-                text: "Main Cewek",
-            },
-            B: {
-                text: "Main PS",
-            },
-            C: {
-                text: "Main Anonymous",
-            },
-        },
+        question: "Ini foto kapan?",
+        image: "img/2.png",
+        answers: [
+            { text: "14 Agustus 2025", correct: false },
+            { text: "15 Agustus 2025", correct: false },
+            { text: "16 Agustus 2025", correct: false },
+            { text: "17 Agustus 2025", correct: false },
+            { text: "18 Agustus 2025", correct: true }
+        ]
+    },
+    {
+        question: "Dimana foto ini?",
+        image: "img/3.png",
+        answers: [
+            { text: "Mount Borneo", correct: false },
+            { text: "Mount Jawir", correct: false },
+            { text: "Mount Seminung", correct: true },
+            { text: "Mount Swiss", correct: false },
+            { text: "Mount Bromo", correct: false }
+        ]
+    },
+    {
+        question: "Ini foto kapan?",
+        image: "img/3.png",
+        answers: [
+            { text: "20 Agustus 2025", correct: false },
+            { text: "03 Agustus 2025", correct: false },
+            { text: "24 Agustus 2025", correct: true },
+            { text: "15 Agustus 2025", correct: false },
+            { text: "12 Agustus 2025", correct: false }
+        ]
+    },
+    {
+        question: "Dimana foto ini?",
+        image: "img/4.png",
+        answers: [
+            { text: "RP Baru Smith", correct: false },
+            { text: "Smith Baru", correct: false },
+            { text: "New Smith RP", correct: true },
+            { text: "Brookhaven", correct: false },
+            { text: "Metro Life City RP", correct: false }
+        ]
+    },
+    {
+        question: "Ini foto kapan?",
+        image: "img/4.png",
+        answers: [
+            { text: "28 Juni 2025", correct: false },
+            { text: "27 Juli 2025", correct: false },
+            { text: "28 Agustus 2025", correct: true },
+            { text: "27 Agustus 2025", correct: false },
+            { text: "27 September 2025", correct: false }
+        ]
+    },
+    {
+        question: "Dimana foto ini?",
+        image: "img/5.png",
+        answers: [
+            { text: "Mount Ngebut", correct: false },
+            { text: "Mount Seminung", correct: false },
+            { text: "Mount Sibuatan", correct: true },
+            { text: "Mount Jawir", correct: false },
+            { text: "Mount Borneo", correct: false }
+        ]
+    },
+    {
+        question: "Ini foto kapan?",
+        image: "img/5.png",
+        answers: [
+            { text: "28 Juni 2025", correct: false },
+            { text: "27 Juli 2025", correct: false },
+            { text: "30 Agustus 2025", correct: true },
+            { text: "27 Agustus 2025", correct: false },
+            { text: "27 September 2025", correct: false }
+        ]
+    },
+    {
+        question: "Dimana foto ini?",
+        image: "img/6.png",
+        answers: [
+            { text: "Bathroom", correct: true },
+            { text: "Rooftop", correct: false },
+            { text: "Devils", correct: false },
+            { text: "Salon", correct: false },
+            { text: "Hangout", correct: false }
+        ]
+    },
+    {
+        question: "Ini foto kapan?",
+        image: "img/6.png",
+        answers: [
+            { text: "10 Oktober 2025", correct: false },
+            { text: "05 Oktober 2025", correct: true },
+            { text: "10 Agustus 2025", correct: false },
+            { text: "05 September 2025", correct: false },
+            { text: "27 November 2025", correct: false }
+        ]
+    },
+    {
+        question: "Siapa creator map difoto ini?",
+        image: "img/7.png",
+        answers: [
+            { text: "Katalog", correct: false },
+            { text: "Pembuat Avatar Katalog", correct: false },
+            { text: "Zepeto Outfits Katalog", correct: false },
+            { text: "Editor", correct: false },
+            { text: "ItsMuneeeb", correct: true }
+        ]
+    },
+    {
+        question: "Dimana foto ini?",
+        image: "img/8.png",
+        answers: [
+            { text: "Tugu Jogja", correct: true },
+            { text: "Jogja", correct: false },
+            { text: "Borobudur", correct: false },
+            { text: "Jalan Malioboro", correct: false },
+            { text: "Kamar Mandi", correct: false }
+        ]
+    },
+    {
+        question: "Ini foto kapan?",
+        image: "img/8.png",
+        answers: [
+            { text: "21 Oktober 2025", correct: false },
+            { text: "21 Agustus 2025", correct: false },
+            { text: "19 September 2025", correct: false },
+            { text: "19 November 2025", correct: false },
+            { text: "22 November 2025", correct: true }
+        ]
+    },
+    {
+        question: "Berapa top speed kendaraan yang dipakai?",
+        image: "img/9.png",
+        answers: [
+            { text: "Mengemudi ATV Berbahaya", correct: true },
+            { text: "Mengemudi Becak Berbahaya", correct: false },
+            { text: "Mengemudi Sepeda Berbahaya", correct: false },
+            { text: "45", correct: false },
+            { text: "45 + Nitro", correct: true }
+        ]
+    },
+    {
+        question: "Ini foto kapan?",
+        image: "img/9.png",
+        answers: [
+            { text: "21 Oktober 2025", correct: false },
+            { text: "21 Agustus 2025", correct: false },
+            { text: "19 September 2025", correct: false },
+            { text: "25 November 2025", correct: true },
+            { text: "22 November 2025", correct: false }
+        ]
+    },
+    {
+        question: "Siapa nama yang ada pada foto ini?",
+        image: "img/10.png",
+        answers: [
+            { text: "alphine_v & notellate12", correct: false },
+            { text: "vue & ella", correct: false },
+            { text: "Alphine & Biel", correct: true },
+            { text: "L***i & Q**i", correct: false },
+            { text: "Zain & Biel", correct: false }
+        ]
+    },
+    {
+        question: "Dimana ini?",
+        image: "img/11.jpg",
+        answers: [
+            { text: "Are you okay?", correct: false },
+            { text: "Relapse", correct: false },
+            { text: "Are you lonely?", correct: true },
+            { text: "Lonely Hills", correct: false },
+            { text: "Night Bound", correct: false }
+        ]
+    },
+    {
+        question: "Total Harga Outfit?",
+        image: "img/12.png",
+        answers: [
+            { text: "500 Robux", correct: true },
+            { text: "550 Robux", correct: true },
+            { text: "750 Robux", correct: true },
+            { text: "700 Robux", correct: true },
+            { text: "650 Robux", correct: true }
+        ]
+    },
+    {
+        question: "Kapan ini?",
+        image: "img/12.png",
+        answers: [
+            { text: "02 Agustus 2025", correct: true },
+            { text: "12 November 2025", correct: true },
+            { text: "02 Desember 2025", correct: true },
+            { text: "12 Juli 2025", correct: true },
+            { text: "02 September 2025", correct: true }
+        ]
+    },
+    {
+        question: "Apa nama pancingan yang dipakai alphine & biel?",
+        image: "img/13.png",
+        answers: [
+            { text: "Lucky Rod", correct: false },
+            { text: "Midnight Rod", correct: true },
+            { text: "Astral Rod", correct: false },
+            { text: "Starter Rod", correct: false },
+            { text: "Ares Rod", correct: false }
+        ]
+    },
+    {
+        question: "Berapa Jumlah CP di mount ini?",
+        image: "img/14.png",
+        answers: [
+            { text: "200", correct: false },
+            { text: "300", correct: false },
+            { text: "400", correct: true },
+            { text: "500", correct: false },
+            { text: "600", correct: false }
+        ]
+    },
+    {
+        question: "Dimanakah ini?",
+        image: "img/15.png",
+        answers: [
+            { text: "Mount Island", correct: true },
+            { text: "Mount Greenveil", correct: false },
+            { text: "Mount Santeria", correct: false },
+            { text: "Mount Hemiria", correct: false },
+            { text: "Mount ASWD", correct: false }
+        ]
     }
+
 ];
 
 
-let currentQuestion = 0;
-// let userAnswers = {};
+// =======================
+// RANDOMIZER (KECUALI 2 TERATAS)
+// =======================
 
+function shuffleArray(array) {
+    return array
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
+}
 
-function displayQuestion() {
-    const quizElement = document.getElementById('quiz');
-    const question = questions[currentQuestion];
-    if (question) {
-        let html = `<p>${question.question}</p>`;
-        if (question.image) {
-            html += `<img src="${question.image}" alt="Question ${currentQuestion + 1}">`;
-        }
-        for (const option in question.answers) {
-            html += `<button class="large-rectangular" value="${option}" id="${option}">${question.answers[option].text}</button>`;
-        }
-        quizElement.innerHTML = html;
-        attachButtonClickHandlers();
-    } else {
-    
-    }
+function prepareQuestions() {
+    const fixed = questions.slice(0, 2);
+    const random = shuffleArray(questions.slice(2));
+    finalQuestions = [...fixed, ...random];
 }
 
 
-document.getElementById('start-button').addEventListener('click', function() {
-    userName = document.getElementById('user-name').value;
-    document.getElementById('start-page').style.display = 'none';
-    document.getElementById('quiz-page').style.display = 'block';
+// =======================
+// START BUTTON
+// =======================
+
+document.getElementById("start-button").addEventListener("click", () => {
+
+    userName = document.getElementById("user-name").value || "Tanpa Nama";
+    document.getElementById("start-page").style.display = "none";
+    document.getElementById("quiz-page").style.display = "block";
+
+    prepareQuestions();
     currentQuestion = 0;
-    userAnswers = {};
-    displayQuestion(); 
-    // userAnswers.userName = userName;
+    nilai = 0;
+    salah = 0;
+    answerHistory = [];
+    displayQuestion();
 });
 
 
-//click
-function attachButtonClickHandlers() {
-    const choiceButtons = document.querySelectorAll('.large-rectangular');
-    choiceButtons.forEach((button) => {
-        button.addEventListener('click', handleAnswer);
+// =======================
+// DISPLAY QUESTION
+// =======================
+
+function displayQuestion() {
+    const quizElement = document.getElementById("quiz");
+    const question = finalQuestions[currentQuestion];
+
+    const progressPercent = ((currentQuestion) / finalQuestions.length) * 100;
+
+    quizElement.classList.remove("fade-in");
+    void quizElement.offsetWidth;
+    quizElement.classList.add("fade-in");
+
+    let html = `
+        <div class="progress-container">
+            <div class="progress-bar" style="width:${progressPercent}%"></div>
+        </div>
+
+        <p>Q${currentQuestion + 1}/${finalQuestions.length}</p>
+        <p>${question.question}</p>
+    `;
+
+    if (question.image) {
+        html += `<img src="${question.image}">`;
+    }
+
+    question.answers.forEach(answer => {
+        html += `
+            <button class="large-rectangular answer-btn" data-correct="${answer.correct}">
+                ${answer.text}
+            </button>
+        `;
+    });
+
+    quizElement.innerHTML = html;
+
+    document.querySelectorAll(".answer-btn").forEach(btn => {
+        btn.addEventListener("click", handleAnswer);
     });
 }
 
 
+// =======================
+// HANDLE ANSWER
+// =======================
 
-//answers
-function handleAnswer(event) {
-    const selectedOption = event.target;
-    const answerKey = selectedOption.value;
-    const question = questions[currentQuestion];
-    const answer = question.answers[answerKey];
-    if(selectedOption.value=='T'){
-     nilai +=1   
-    }else{
-        salah +=1
-    }
-    console.log(nilai);
-    for (const dimension in answer.scores) {
-        userAnswers[dimension] = (userAnswers[dimension] || 0) + answer.scores[dimension];
-    }
+function handleAnswer(e) {
+    const isCorrect = e.target.dataset.correct === "true";
+    const question = finalQuestions[currentQuestion];
 
-    // remove this when done debugging
-    // Display the scores for each letter
-    
-    //const scoresContainer = document.querySelector('.scores-container');
-    //scoresContainer.innerHTML = `
-    //    <p>E Score: ${userAnswers['E'] || 0}, S Score: ${userAnswers['S'] || 0}, T Score: ${userAnswers['T'] || 0}, P Score: ${userAnswers['P'] || 0}</p>
-    //    <p>I Score: ${userAnswers['I'] || 0}, N Score: ${userAnswers['N'] || 0}, F Score: ${userAnswers['F'] || 0}, J Score: ${userAnswers['J'] || 0}</p>
-    //
-    //`;
-    // to here
+    if (isCorrect) nilai++;
+    else salah++;
 
-    if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
+    answerHistory.push({
+        question: question.question,
+        image: question.image,
+        userAnswer: e.target.innerText,
+        correctAnswers: question.answers
+            .filter(a => a.correct)
+            .map(a => a.text)
+    });
+
+    currentQuestion++;
+
+    if (currentQuestion < finalQuestions.length) {
         displayQuestion();
     } else {
         showResult();
     }
 }
 
-// ...
+
+// =======================
+// RESULT
+// =======================
+
 function showResult() {
-    const resultElement = document.getElementById('result');
-    resultElement.style.display = 'block';
-    document.getElementById('quiz').style.display = 'none';
-  
-    const totalScore = nilai;
-    const calc = nilai/12*100;
-    const floaters = parseInt(calc)
-  
-    //   <div class="card" style="background-color: #FFFFFF; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-    const resultHTML = `
-      <h2>Persentase ${userName} Mengenal Aku Sebanyak: ${floaters}%</h2>
-        <canvas id="chart" width="800" height="800"></canvas>
-            <button onClick='window.location.reload()' class="start-button">Play Again?</button>
-    
-    `;
-    resultElement.innerHTML = resultHTML;
-  
-    const chartCanvas = document.getElementById('chart');
-    const chartContext = chartCanvas.getContext('2d');
-  
-    const chartData = calculateChartData(totalScore);
-    drawChart(chartContext, chartData);
-  }
-  
-  
-  function calculateChartData(totalScore) {
-    const chartData = {
-      labels: ['Benar','Salah'],
-      datasets: [{
-        label: 'Jumlah',
-        data: [nilai,salah], // only show T score
-        backgroundColor: ['rgb(54, 162, 235)','rgb(255, 99, 132)',],
-        hoverOffset: 4,
-        // borderColor: ['rgba(255, 99, 132, 1)'],
-        borderWidth: 1
-      }]
-    };
-    return chartData;
-  }
-  
-  function drawChart(chartContext, chartData) {
-    const chart = new Chart(chartContext, {
-      type: 'pie',
-      data: chartData,
-      options: {
-        title: {
-          display: true,
-          text: 'Personality Score'
-        },
-        legend: {
-          display: false
-        },
-        scale: {
-          ticks: {
-            beginAtZero: true
-          }
-        }
-      }
+    const resultElement = document.getElementById("result");
+    resultElement.style.display = "block";
+    document.getElementById("quiz").style.display = "none";
+
+    const percent = Math.round((nilai / finalQuestions.length) * 100);
+
+    let reviewHTML = `<div class="review-list">`;
+
+    answerHistory.forEach((item, index) => {
+        const isCorrect = item.correctAnswers.includes(item.userAnswer);
+
+        reviewHTML += `
+            <div class="review-item ${isCorrect ? "correct" : "wrong"}">
+                <p><strong>Soal ${index + 1}</strong> ${isCorrect ? `✅` : `❌`}</p>
+                <p>${item.question}</p>
+                ${item.image ? `<img src="${item.image}" class="review-img">` : ""}
+                <p>Jawaban kamu: <b>${item.userAnswer}</b></p>
+                <!-- <p>Jawaban benar: <b>${item.correctAnswers.join(", ")}</b></p> -->
+            </div>
+        `;
     });
-  }
 
+    reviewHTML += `</div>`;
 
+    resultElement.innerHTML = `
+        <h2>${userName} mengenal ellaphine sebesar ${percent}% 💖</h2>
+        <canvas id="chart" width="300" height="300"></canvas>
+        ${reviewHTML}
+        <button onclick="location.reload()" class="start-button">Main Lagi</button>
+    `;
 
-//Function to restart the quiz
-function restartQuiz() {
-    currentQuestion = 0;
-    userAnswers = {};
-    document.getElementById('result').style.display = 'none';
-    document.getElementById('quiz').style.display = 'block';
-    displayQuestion(); // Start the quiz from the beginning
+    new Chart(document.getElementById("chart"), {
+        type: "pie",
+        data: {
+            labels: ["Benar", "Salah"],
+            datasets: [{
+                data: [nilai, salah]
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
 }
-
-document.getElementById('restart-button').addEventListener('click', restartQuiz);
-
-displayQuestion();
-
 
